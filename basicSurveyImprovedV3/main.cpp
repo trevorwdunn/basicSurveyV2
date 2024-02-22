@@ -2,133 +2,129 @@
 //  main.cpp
 //  basicSurveyImprovedV3
 //
-//  The intention of this project is to improve upon my basicSurvey program by adding support for
-//  premade .txt. files. I also intend to clean up the code a lot.
+//  The intention of this project is to improve upon my basicSurvey program by
+//  adding support for premade .txt. files. I also intend to clean up the code a
+//  lot.
 //
 //  Created by Trevor Dunn on 2/20/24.
 //
 
-#include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <stdexcept>
 #include <string>
-#include <algorithm>
 
-const std::string REFERENCE_FILE_NAME = "referencefile.txt"; // This is not currently in use. This will be an added functionality after I clean up my code.
-
-
+const std::string REFERENCE_FILE_NAME =
+    "referencefile.txt"; // This is not currently in use. This will be an added
+                         // functionality after I clean up my code.
 
 std::vector<std::string> classAsker() {
-    // Get the class count from the user and determine if the provided input is sane.
-    int classCount;
-    std::cout << "How many classes are you taking? Please enter an integer." << std::endl;
-    std::cin >> classCount;
-    if (classCount >= 7) {
-        throw std::runtime_error("That's too many classes. You don't have time to be running random code.");
+  // Get the class count from the user and determine if the provided input is
+  // sane.
+  int classCount;
+  std::cout << "How many classes are you taking? Please enter an integer."
+            << std::endl;
+  std::cin >> classCount;
+  if (classCount >= 7) {
+    throw std::runtime_error("That's too many classes. You don't have time to "
+                             "be running random code.");
+  }
+
+  // Get the class names
+  std::vector<std::string> classes;
+  for (int i = 0; i < classCount; i++) {
+    std::string classTemp;
+    std::cout << "What is your class in slot number " << (i + 1) << "?"
+              << std::endl;
+    if (i == 0) {
+      std::cin.ignore(); // this is here to prevent the loop from skipping the
+                         // first question without getting input
     }
-    
-    
-    // Get the class names
-    std::vector<std::string> classes;
-    for (int i = 0; i < classCount; i++) {
-           std::string classTemp;
-           std::cout << "What is your class in slot number " << (i+1) << "?" << std::endl;
-           if (i == 0) {
-               std::cin.ignore(); // this is here to prevent the loop from skipping the first question without getting input
-           }
-            getline(std::cin, classTemp);
-            classes.push_back(classTemp);
-        }
-    return classes;
+    getline(std::cin, classTemp);
+    classes.push_back(classTemp);
+  }
+  return classes;
 }
 
 std::vector<std::string> getLocationDetails() {
-    // Establish variables.
-    std::string userCountry;
-    std::string userProvince;
-    std::string userCity;
-    
-    // Prompt for input from the user.
-    std::cout << "In which country do you reside? " << std::endl;
-    getline(std::cin, userCountry);
-    
-    std::cout << "In which province or state do you reside? " << std::endl;
-    getline(std::cin, userProvince);
-    
-    std::cout << "In which city do you reside?";
-    getline(std::cin, userCity);
-    
-    // Create and set up the location vector. This is done this way to streamline input file support. I may change this if that turns out to be a bad idea.
-    std::vector<std::string> userLocation;
-    userLocation.push_back(userCountry);
-    userLocation.push_back(userProvince);
-    userLocation.push_back(userCity);
-    
-    return userLocation;
+  // Establish variables.
+  std::string userCountry;
+  std::string userProvince;
+  std::string userCity;
+
+  // Prompt for input from the user.
+  std::cout << "In which country do you reside? " << std::endl;
+  getline(std::cin, userCountry);
+
+  std::cout << "In which province or state do you reside? " << std::endl;
+  getline(std::cin, userProvince);
+
+  std::cout << "In which city do you reside?" << std::endl;
+  getline(std::cin, userCity);
+
+  // Create and set up the location vector. This is done this way to streamline
+  // input file support. I may change this if that turns out to be a bad idea.
+  std::vector<std::string> userLocation;
+  userLocation.push_back(userCountry);
+  userLocation.push_back(userProvince);
+  userLocation.push_back(userCity);
+
+  return userLocation;
 }
 
-
-
-
-void testOutput(std::string userName, bool isAttendingClasses, std::vector<std::string> classNames); // I wrote the definition below because I intend to remove
-                                                                                                     // this at sime point. 
-
+void testOutput(std::string userName, bool isAttendingClasses,
+                std::vector<std::string>
+                    classNames); // I wrote the definition below because I
+                                 // intend to remove this at sime point.
 
 int main() {
-    // This block gets the user's name.
-    std::string userName;
-    std::cout << "What is your name?" << std::endl;
-    getline(std::cin, userName);
-    
-    // This block gets the user's school status.
-    char schoolResponse = false;
-    std::cout << "Are you currently attending classes? (y/n)" << std::endl;
-    std::cin >> schoolResponse;
-    tolower(schoolResponse);
-    
-    // This block converts the user input to a boolean value.
-    bool isAttendingClasses;
-    if (schoolResponse == 'y') {
-        isAttendingClasses = static_cast<bool>(schoolResponse);
-    }
-    else if (schoolResponse == 'n') {
-        isAttendingClasses = false;
-    }
-    else {
-        throw std::runtime_error("I don't know what you entered, but it was wrong.");
-    }
-    
-    // Get the class names from a function.
-    std::vector<std::string> classNames;
-    if (isAttendingClasses) {
-        std::vector<std::string> classNames = classAsker();
-    }
-    
-    testOutput(userName, isAttendingClasses, classNames);
-    
-    std::vector<std::string>locationData = getLocationDetails();
-    
-    return 0;
+  // This block gets the user's name.
+  std::string userName;
+  std::cout << "What is your name?" << std::endl;
+  getline(std::cin, userName);
+
+  // This block gets the user's school status.
+  char schoolResponse = false;
+  std::cout << "Are you currently attending classes? (y/n)" << std::endl;
+  std::cin >> schoolResponse;
+  tolower(schoolResponse);
+
+  // This block converts the user input to a boolean value.
+  bool isAttendingClasses;
+  if (schoolResponse == 'y') {
+    isAttendingClasses = static_cast<bool>(schoolResponse);
+  } else if (schoolResponse == 'n') {
+    isAttendingClasses = false;
+  } else {
+    throw std::runtime_error(
+        "I don't know what you entered, but it was wrong.");
+  }
+
+  // Get the class names from a function.
+  std::vector<std::string> classNames;
+  if (isAttendingClasses) {
+    std::vector<std::string> classNames = classAsker();
+  }
+
+  testOutput(userName, isAttendingClasses, classNames);
+
+  std::vector<std::string> locationData = getLocationDetails();
+
+  return 0;
 }
 
-
-
-
-
-void testOutput(std::string userName, bool isAttendingClasses, std::vector<std::string> classNames) {
-    std::cout << "Your name is: " << userName << std::endl;
-    if (isAttendingClasses == true) {
-        std::cout << "You are a student." << std::endl;
-        std::cout << "Your classes are as follows: " << std::endl;
-        for (int i = 0; i < classNames.size(); i++) {
-            std::cout << classNames.at(i) << std::endl;
-        }
+void testOutput(std::string userName, bool isAttendingClasses,
+                std::vector<std::string> classNames) {
+  std::cout << "Your name is: " << userName << std::endl;
+  if (isAttendingClasses == true) {
+    std::cout << "You are a student." << std::endl;
+    std::cout << "Your classes are as follows: " << std::endl;
+    for (int i = 0; i < classNames.size(); i++) {
+      std::cout << classNames.at(i) << std::endl;
     }
-    else {
-        std::cout << "You are not a student." << std::endl;
-    }
-    
+  } else {
+    std::cout << "You are not a student." << std::endl;
+  }
 }
-
-
