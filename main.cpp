@@ -128,23 +128,36 @@ std::vector<std::string> getClassNamesFromFile() {
   bool openSuccess = false;
   if (!file) {
     char userTryAgain;
-    for (bool tryAgain = true; tryAgain != true;) {
+    bool tryAgain = false;
+    std::cin.sync(); // clear the input buffer
+
+    // this line is not running for some reason.
+    do {
       std::cout << "Would you like to try again? (y/n)" << std::endl;
       std::cin >> userTryAgain;
-      tolower(userTryAgain);
 
-      if (userTryAgain == 'y') {
+      if (tolower(userTryAgain) == 'y') {
         tryAgain = true;
+        std::cout << "What is the name of the file you would like to open?"
+                  << std::endl;
+        std::cin.ignore();
+        getline(std::cin, fileName);
+
+        std::ifstream file(fileName);
+        if (file) {
+          std::cout << "The file was opened successfully!" << std::endl;
+          tryAgain = false;
+        }
       } // if condition
-      else if (userTryAgain == 'n') {
+      else if (tolower(userTryAgain) == 'n') {
         break;
       } // else if condition
       else {
         throw std::runtime_error("Invalid Response. You answered: " +
                                  std::string(1, userTryAgain));
-      } // else condition
-    }   // for loop
-  }     // if file is opened
+      }                 // else condition
+    } while (tryAgain); // for loop
+  }                     // if file is opened
 
   // This is print debug condition. I will remove it before I'm finished.
   if (file) {
