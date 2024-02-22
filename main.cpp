@@ -9,9 +9,7 @@
 //  Created by Trevor Dunn on 2/20/24.
 //
 
-#include <algorithm>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -22,6 +20,8 @@ const std::string REFERENCE_FILE_NAME =
 
 std::vector<std::string> getLocationDetails();
 std::vector<std::string> getClassNames();
+std::vector<std::string> getClassNamesFromFile();
+std::vector<std::string> getLocationDetailsFromFile();
 
 void testOutput(std::string userName, bool isAttendingClasses,
                 std::vector<std::string>
@@ -57,9 +57,11 @@ int main() {
     std::vector<std::string> classNames = getClassNames();
   }
 
-  testOutput(userName, isAttendingClasses, classNames);
+  // testOutput(userName, isAttendingClasses, classNames);
 
   std::vector<std::string> locationData = getLocationDetails();
+
+  getClassNamesFromFile();
 
   return 0;
 }
@@ -116,6 +118,18 @@ std::vector<std::string> getLocationDetails() {
   userLocation.push_back(userCity);
 
   return userLocation;
+}
+
+std::vector<std::string> getClassNamesFromFile() {
+  std::vector<std::string> classNames;
+  std::ifstream REFERENCE_FILE_NAME;
+  if (!REFERENCE_FILE_NAME) {
+    throw std::runtime_error("The file could not be opened.");
+  }
+
+  REFERENCE_FILE_NAME.close();
+
+  return classNames;
 }
 
 void testOutput(std::string userName, bool isAttendingClasses,
