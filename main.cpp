@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  basicSurveyImprovedV3
+//  basicSurveyV2
 //
 //  The intention of this project is to improve upon my basicSurvey program by
 //  adding support for premade .txt. files. I also intend to clean up the code a
@@ -20,6 +20,7 @@ const std::string REFERENCE_FILE_NAME =
 
 std::vector<std::string> getLocationDetails();
 std::vector<std::string> getClassNames();
+bool getStudentStatus();
 std::vector<std::string> getClassNamesFromFile();
 std::vector<std::string> getLocationDetailsFromFile();
 
@@ -34,6 +35,24 @@ int main() {
   std::cout << "What is your name?" << std::endl;
   getline(std::cin, userName);
 
+  // Get the student status from a function.
+  bool isAttendingClasses;
+  isAttendingClasses = getStudentStatus();
+
+  // Get the class names from a function.
+  std::vector<std::string> classNames;
+  if (isAttendingClasses) {
+    std::vector<std::string> classNames = getClassNames();
+  }
+
+  // testOutput(userName, isAttendingClasses, classNames);
+
+  std::vector<std::string> locationData = getLocationDetails();
+
+  return 0;
+}
+
+bool getStudentStatus() {
   // This block gets the user's school status.
   char schoolResponse = false;
   std::cout << "Are you currently attending classes? (y/n)" << std::endl;
@@ -50,20 +69,7 @@ int main() {
     throw std::runtime_error(
         "I don't know what you entered, but it was wrong.");
   }
-
-  // Get the class names from a function.
-  std::vector<std::string> classNames;
-  if (isAttendingClasses) {
-    std::vector<std::string> classNames = getClassNames();
-  }
-
-  // testOutput(userName, isAttendingClasses, classNames);
-
-  std::vector<std::string> locationData = getLocationDetails();
-
-  getClassNamesFromFile();
-
-  return 0;
+  return isAttendingClasses;
 }
 
 std::vector<std::string> getClassNames() {
