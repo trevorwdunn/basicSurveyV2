@@ -20,7 +20,51 @@ const std::string REFERENCE_FILE_NAME =
     "referencefile.txt"; // This is not currently in use. This will be an added
                          // functionality after I clean up my code.
 
-std::vector<std::string> classAsker() {
+std::vector<std::string> getLocationDetails();
+std::vector<std::string> getClassNames();
+
+void testOutput(std::string userName, bool isAttendingClasses,
+                std::vector<std::string>
+                    classNames); // I wrote the definition below because I
+                                 // intend to remove this at sime point.
+
+int main() {
+  // This block gets the user's name.
+  std::string userName;
+  std::cout << "What is your name?" << std::endl;
+  getline(std::cin, userName);
+
+  // This block gets the user's school status.
+  char schoolResponse = false;
+  std::cout << "Are you currently attending classes? (y/n)" << std::endl;
+  std::cin >> schoolResponse;
+  tolower(schoolResponse);
+
+  // This block converts the user input to a boolean value.
+  bool isAttendingClasses;
+  if (schoolResponse == 'y') {
+    isAttendingClasses = static_cast<bool>(schoolResponse);
+  } else if (schoolResponse == 'n') {
+    isAttendingClasses = false;
+  } else {
+    throw std::runtime_error(
+        "I don't know what you entered, but it was wrong.");
+  }
+
+  // Get the class names from a function.
+  std::vector<std::string> classNames;
+  if (isAttendingClasses) {
+    std::vector<std::string> classNames = getClassNames();
+  }
+
+  testOutput(userName, isAttendingClasses, classNames);
+
+  std::vector<std::string> locationData = getLocationDetails();
+
+  return 0;
+}
+
+std::vector<std::string> getClassNames() {
   // Get the class count from the user and determine if the provided input is
   // sane.
   int classCount;
@@ -72,47 +116,6 @@ std::vector<std::string> getLocationDetails() {
   userLocation.push_back(userCity);
 
   return userLocation;
-}
-
-void testOutput(std::string userName, bool isAttendingClasses,
-                std::vector<std::string>
-                    classNames); // I wrote the definition below because I
-                                 // intend to remove this at sime point.
-
-int main() {
-  // This block gets the user's name.
-  std::string userName;
-  std::cout << "What is your name?" << std::endl;
-  getline(std::cin, userName);
-
-  // This block gets the user's school status.
-  char schoolResponse = false;
-  std::cout << "Are you currently attending classes? (y/n)" << std::endl;
-  std::cin >> schoolResponse;
-  tolower(schoolResponse);
-
-  // This block converts the user input to a boolean value.
-  bool isAttendingClasses;
-  if (schoolResponse == 'y') {
-    isAttendingClasses = static_cast<bool>(schoolResponse);
-  } else if (schoolResponse == 'n') {
-    isAttendingClasses = false;
-  } else {
-    throw std::runtime_error(
-        "I don't know what you entered, but it was wrong.");
-  }
-
-  // Get the class names from a function.
-  std::vector<std::string> classNames;
-  if (isAttendingClasses) {
-    std::vector<std::string> classNames = classAsker();
-  }
-
-  testOutput(userName, isAttendingClasses, classNames);
-
-  std::vector<std::string> locationData = getLocationDetails();
-
-  return 0;
 }
 
 void testOutput(std::string userName, bool isAttendingClasses,
