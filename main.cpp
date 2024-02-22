@@ -40,9 +40,8 @@ int main() {
     std::vector<std::string> classNames = getClassNames();
   }
 
-  // testOutput(userName, isAttendingClasses, classNames);
-
-  std::vector<std::string> locationData = getLocationDetails();
+  // Get the location data from the user via promots.
+  // std::vector<std::string> locationData = getLocationDetails();
 
   return 0;
 }
@@ -61,8 +60,8 @@ bool getStudentStatus() {
   } else if (schoolResponse == 'n') {
     isAttendingClasses = false;
   } else {
-    throw std::runtime_error(
-        "I don't know what you entered, but it was wrong.");
+    throw std::runtime_error("Invalid Choice. You entered: " +
+                             std::string(1, schoolResponse));
   }
   return isAttendingClasses;
 }
@@ -74,10 +73,6 @@ std::vector<std::string> getClassNames() {
   std::cout << "How many classes are you taking? Please enter an integer."
             << std::endl;
   std::cin >> classCount;
-  if (classCount >= 7) {
-    throw std::runtime_error("That's too many classes. You don't have time to "
-                             "be running random code.");
-  }
 
   // Get the class names
   std::vector<std::string> classes;
@@ -113,6 +108,7 @@ std::vector<std::string> getLocationDetails() {
 
   // Create and set up the location vector. This is done this way to streamline
   // input file support. I may change this if that turns out to be a bad idea.
+  // NOTE: Try to find a way to combine the next four lines.
   std::vector<std::string> userLocation;
   userLocation.push_back(userCountry);
   userLocation.push_back(userProvince);
