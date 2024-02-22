@@ -14,10 +14,6 @@
 #include <stdexcept>
 #include <string>
 
-// This is not currently in use. This will be an added functionality after I
-// clean up my code.
-const std::string REFERENCE_FILE_NAME = "referencefile.txt";
-
 std::vector<std::string> getLocationDetails();
 std::vector<std::string> getClassNames();
 bool getStudentStatus();
@@ -42,6 +38,7 @@ int main() {
 
   // Get the location data from the user via promots.
   // std::vector<std::string> locationData = getLocationDetails();
+  getClassNamesFromFile();
 
   return 0;
 }
@@ -119,12 +116,40 @@ std::vector<std::string> getLocationDetails() {
 
 std::vector<std::string> getClassNamesFromFile() {
   std::vector<std::string> classNames;
-  std::ifstream REFERENCE_FILE_NAME;
-  if (!REFERENCE_FILE_NAME) {
-    throw std::runtime_error("The file could not be opened.");
+
+  // Ask the user for the name of the file to be opened.
+  std::string fileName;
+  std::cout << "What is the name of the file you would like to open?"
+            << std::endl;
+  std::cin.ignore();
+  getline(std::cin, fileName);
+
+  std::ifstream file(fileName);
+  bool openSuccess = false;
+  if (!file) {
+    char userTryAgain;
+    for (bool tryAgain = true; tryAgain != true;) {
+      std::cout << "Would you like to try again? (y/n)" << std::endl;
+      std::cin >> userTryAgain;
+      tolower(userTryAgain);
+
+      if (userTryAgain == 'y') {
+        tryAgain = true;
+      } // if condition
+      else if (userTryAgain == 'n') {
+        break;
+      } // else if condition
+      else {
+        throw std::runtime_error("Invalid Response. You answered: " +
+                                 std::string(1, userTryAgain));
+      } // else condition
+    }   // for loop
+  }     // if file is opened
+
+  // This is print debug condition. I will remove it before I'm finished.
+  if (file) {
+    std::cout << "The file was opened successfully!" << std::endl;
   }
-
-  REFERENCE_FILE_NAME.close();
-
+  file.close();
   return classNames;
 }
