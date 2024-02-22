@@ -14,20 +14,15 @@
 #include <stdexcept>
 #include <string>
 
-const std::string REFERENCE_FILE_NAME =
-    "referencefile.txt"; // This is not currently in use. This will be an added
-                         // functionality after I clean up my code.
+// This is not currently in use. This will be an added functionality after I
+// clean up my code.
+const std::string REFERENCE_FILE_NAME = "referencefile.txt";
 
 std::vector<std::string> getLocationDetails();
 std::vector<std::string> getClassNames();
 bool getStudentStatus();
 std::vector<std::string> getClassNamesFromFile();
 std::vector<std::string> getLocationDetailsFromFile();
-
-void testOutput(std::string userName, bool isAttendingClasses,
-                std::vector<std::string>
-                    classNames); // I wrote the definition below because I
-                                 // intend to remove this at sime point.
 
 int main() {
   // This block gets the user's name.
@@ -136,18 +131,4 @@ std::vector<std::string> getClassNamesFromFile() {
   REFERENCE_FILE_NAME.close();
 
   return classNames;
-}
-
-void testOutput(std::string userName, bool isAttendingClasses,
-                std::vector<std::string> classNames) {
-  std::cout << "Your name is: " << userName << std::endl;
-  if (isAttendingClasses == true) {
-    std::cout << "You are a student." << std::endl;
-    std::cout << "Your classes are as follows: " << std::endl;
-    for (int i = 0; i < classNames.size(); i++) {
-      std::cout << classNames.at(i) << std::endl;
-    }
-  } else {
-    std::cout << "You are not a student." << std::endl;
-  }
 }
