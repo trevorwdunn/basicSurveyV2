@@ -16,6 +16,7 @@
     2. Start transitioning to pointers where possible
 */
 
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -24,8 +25,12 @@
 std::vector<std::string> getLocationDetails();
 std::vector<std::string> getClassNames();
 bool getStudentStatus();
-std::vector<std::string> getClassNamesFromFile();
-std::vector<std::string> getLocationDetailsFromFile();
+std::vector<std::string>
+getClassNamesFromFile(std::vector<std::string> *pFileData);
+std::vector<std::string>
+getLocationDetailsFromFile(std::vector<std::string> *pFileData);
+std::vector<std::string> readFile();
+char parseFileData(std::vector<std::string> &fileData);
 
 int main() {
   // This block gets the user's name.
@@ -45,7 +50,10 @@ int main() {
 
   // Get the location data from the user via promots.
   // std::vector<std::string> locationData = getLocationDetails();
-  getClassNamesFromFile();
+  std::vector<std::string> fileData = readFile();
+  std::vector<std::string> *pFileData = &fileData;
+  getClassNamesFromFile(pFileData);
+  getLocationDetailsFromFile(pFileData);
 
   return 0;
 }
@@ -124,10 +132,10 @@ std::vector<std::string> getLocationDetails() {
 // This function has gotten really long. What I really should do is create
 // separate function which gets the data from the file, then send that data to
 // this function for evaluation.
-std::vector<std::string> getClassNamesFromFile() {
+std::vector<std::string> readFile() {
   // The vector is created here. I think I can set things up so that this vector
   // is passed to int main() with a pointer.
-  std::vector<std::string> classNames;
+  std::vector<std::string> fileData;
   // Ask the user for the name of the file to be opened.
   std::string fileName;
   std::cout << "What is the name of the file you would like to open?"
@@ -170,10 +178,50 @@ std::vector<std::string> getClassNamesFromFile() {
     } while (tryAgain); // for loop
   }                     // if file is opened
 
-  // This is print debug condition. I will remove it before I'm finished.
-  if (file) {
-    std::cout << "The file was opened successfully!" << std::endl;
+  std::string line;
+  while (getline(file, line)) {
+    fileData.push_back(line);
   }
+
   file.close();
+  return fileData;
+}
+
+std::vector<std::string>
+getClassNamesFromFile(std::vector<std::string> *pFileData) {
+  std::vector<std::string> classNames;
+
   return classNames;
+}
+
+std::vector<std::string>
+getLocationDetailsFromFile(std::vector<std::string> *pFileData) {
+  std::vector<std::string> locationDetails;
+
+  return locationDetails;
+}
+
+char parseFileData(std::vector<std::string> &fileData) {
+  if (fileData.empty()) {
+    throw std::invalid_argument("The fileData vector is empty.");
+  }
+
+  const std::string &firstElement = fileData.front();
+
+  if (firstElement.empty()) {
+    throw std::invalid_argument("The first element of the vector was empty.");
+  }
+
+  char firstChar = firstElement[0];
+
+  if (isdigit(firstChar)) {
+    return 'N'; // This indicates that the first character of the vector is a
+                // number.
+  } else if (isalpha(firstChar)) {
+    return 'A'; // This indicates that the first character of the vector is a
+                // letter.
+  } else {
+    return 'O'; // This indicates that teh first character of the vector was
+                // neither a number nor a letter, but also was not empty.
+  }
 }
