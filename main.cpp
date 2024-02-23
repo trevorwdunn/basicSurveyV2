@@ -9,6 +9,13 @@
 //  Created by Trevor Dunn on 2/20/24.
 //
 
+/*
+    TO DO:
+    1. Get ...FromFile functions to read in data and pass all of the relevant
+    vectors to main.
+    2. Start transitioning to pointers where possible
+*/
+
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -115,8 +122,9 @@ std::vector<std::string> getLocationDetails() {
 }
 
 std::vector<std::string> getClassNamesFromFile() {
+  // The vector is created here. I think I can set things up so that this vector
+  // is passed to int main() with a pointer.
   std::vector<std::string> classNames;
-
   // Ask the user for the name of the file to be opened.
   std::string fileName;
   std::cout << "What is the name of the file you would like to open?"
