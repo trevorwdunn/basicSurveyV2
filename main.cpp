@@ -121,6 +121,9 @@ std::vector<std::string> getLocationDetails() {
   return userLocation;
 }
 
+// This function has gotten really long. What I really should do is create
+// separate function which gets the data from the file, then send that data to
+// this function for evaluation.
 std::vector<std::string> getClassNamesFromFile() {
   // The vector is created here. I think I can set things up so that this vector
   // is passed to int main() with a pointer.
