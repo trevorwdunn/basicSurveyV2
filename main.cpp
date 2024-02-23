@@ -59,7 +59,7 @@ int main() {
 }
 
 bool getStudentStatus() {
-  // This block gets the user's school status.
+  // This function is designed to get the user's school status.
   char schoolResponse = false;
   std::cout << "Are you currently attending classes? (y/n)" << std::endl;
   std::cin >> schoolResponse;
@@ -79,8 +79,8 @@ bool getStudentStatus() {
 }
 
 std::vector<std::string> getClassNames() {
-  // Get the class count from the user and determine if the provided input is
-  // sane.
+  // This function is designed to get class information manually from the user.
+
   int classCount;
   std::cout << "How many classes are you taking? Please enter an integer."
             << std::endl;
@@ -103,6 +103,8 @@ std::vector<std::string> getClassNames() {
 }
 
 std::vector<std::string> getLocationDetails() {
+  // This function is designed to get location details manually from the user.
+
   // Establish variables.
   std::string userCountry;
   std::string userProvince;
@@ -129,12 +131,9 @@ std::vector<std::string> getLocationDetails() {
   return userLocation;
 }
 
-// This function has gotten really long. What I really should do is create
-// separate function which gets the data from the file, then send that data to
-// this function for evaluation.
 std::vector<std::string> readFile() {
-  // The vector is created here. I think I can set things up so that this vector
-  // is passed to int main() with a pointer.
+  // This function is designed to read data in from the file specified by the
+  // user, then create the vector and pass it to main.
   std::vector<std::string> fileData;
   // Ask the user for the name of the file to be opened.
   std::string fileName;
@@ -189,6 +188,8 @@ std::vector<std::string> readFile() {
 
 std::vector<std::string>
 getClassNamesFromFile(std::vector<std::string> *pFileData) {
+  // This function is designed to interact with a fileData vector which holds
+  // class information.
   std::vector<std::string> classNames;
 
   return classNames;
@@ -196,12 +197,17 @@ getClassNamesFromFile(std::vector<std::string> *pFileData) {
 
 std::vector<std::string>
 getLocationDetailsFromFile(std::vector<std::string> *pFileData) {
+  // This function is designed to interact with a fileData vector which holds
+  // location details.
   std::vector<std::string> locationDetails;
 
   return locationDetails;
 }
 
 char parseFileData(std::vector<std::string> &fileData) {
+  // This function is designed to read the first character in the first string
+  // of the fileData vector, then determine from there whether the vector
+  // contains class names or location details.
   if (fileData.empty()) {
     throw std::invalid_argument("The fileData vector is empty.");
   }
