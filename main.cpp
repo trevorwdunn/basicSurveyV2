@@ -13,7 +13,7 @@
     TO DO:
     1. Get ...FromFile functions to read in data and pass all of the relevant
     vectors to main.
-    2. Start transitioning to pointers where possible
+    2. Create a "class" class. Which won't be confusing at all.
 */
 
 #include <cctype>
